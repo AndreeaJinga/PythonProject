@@ -4,14 +4,17 @@ from tkinter import messagebox
 
 background_color = "thistle2"
 button_color = "thistle"
-active_button_color = "thistle4"
+active_button_color = "thistle3"
+frame_background = "thistle4"
 
 
-def one_player_game():
-    messagebox.showinfo("Hello", "It works!!!")
+def one_player_game(main_window):
+    one_player_frame = Frame(main_window, bg="blue", height=450, width=200, highlightthickness=40,
+                             highlightbackground="blue")
+    one_player_frame.tkraise()
 
 
-def two_players_game():
+def two_players_game(main_window):
     messagebox.showinfo("Hello", "It works too!!!!")
 
 
@@ -46,23 +49,23 @@ def init2():
     main_window.geometry("1000x500")
     main_window.config(bg=background_color)
 
-    start_frame = Frame(main_window, bg=active_button_color, height=450, width=200, highlightthickness=40,
-                        highlightbackground=active_button_color)
+    start_frame = Frame(main_window, bg=frame_background, height=450, width=200, highlightthickness=40,
+                        highlightbackground=frame_background)
     start_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
 
-    title_label = Label(start_frame, text="Welcome to Owale!", bg=active_button_color, padx=10, pady=2.5,
+    title_label = Label(start_frame, text="Welcome to Owale!", bg=frame_background, padx=10, pady=2.5,
                         font=("Lucida Calligraphy", 20, "bold"))
-    title_label.grid(row=1, ipadx=10, ipady=10)
-    players_label = Label(start_frame, text="How many players will play?", bg=active_button_color, padx=10, pady=7.5,
+    title_label.grid(row=1, ipadx=10, ipady=10, columnspan=2)
+    players_label = Label(start_frame, text="How many players will play?", bg=frame_background, padx=10, pady=15,
                           font=("Arial", 14))
-    players_label.grid(row=2, ipadx=10, ipady=10)
+    players_label.grid(row=2, ipadx=10, ipady=10, columnspan=2)
 
     one_player_button = Button(start_frame, text="One player!", bg=button_color, activebackground=active_button_color,
-                               font=("Arial", 12, "bold"), command=one_player_game)
-    one_player_button.grid(row=3, ipadx=10, ipady=5)
+                               font=("Arial", 12, "bold"), command=lambda: one_player_game(main_window))
+    one_player_button.grid(row=3, column=0, ipadx=10, ipady=5, columnspan=1)
     two_players_button = Button(start_frame, text="Two players!", bg=button_color, activebackground=active_button_color,
-                                font=("Arial", 12, "bold"), command=two_players_game)
-    two_players_button.grid(row=4, ipadx=10, ipady=5)
+                                font=("Arial", 12, "bold"), command=lambda: two_players_game(main_window))
+    two_players_button.grid(row=3, column=1, ipadx=10, ipady=5, columnspan=1)
 
     return main_window
 
