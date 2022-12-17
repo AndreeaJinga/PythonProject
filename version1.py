@@ -12,6 +12,10 @@ main_window_width = 1000
 main_window_height = 500
 
 
+def choose_to_move(position_button):
+    print("i need some logics here" + str(position_button))
+
+
 def one_player_game(main_window):
     one_player_frame = Frame(main_window, bg=boardgame_background_color, height=main_window_height,
                              width=main_window_width, highlightthickness=20,
@@ -19,9 +23,27 @@ def one_player_game(main_window):
     one_player_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
     one_player_frame.tkraise()
 
-    c = Canvas(main_window, bg="blue", height=main_window_height-100, width=main_window_width-100,
-               highlightthickness=20, highlightbackground="blue")
-    c.place(relx=0.5, rely=0.5, anchor=CENTER)
+    canvas = Canvas(main_window, bg="white", height=main_window_height-100, width=main_window_width-100,
+                    highlightthickness=20, highlightbackground="white")
+    canvas.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+    # TODO: MAKE IT PRETTY
+    first_rectangle = canvas.create_rectangle(70, 80, 880, 220)
+    second_rectangle = canvas.create_rectangle(70, 230, 880, 370)
+    first_row_of_holes = []
+    second_row_of_holes = []
+    for i in range(0, 6):
+        first_row_of_holes.append(canvas.create_oval(100+i*130, 100, 200+i*130, 200))
+        second_row_of_holes.append(canvas.create_oval(100+i*130, 250, 200+i*130, 350))
+    buttons = []
+    for i in range(0, 6):
+        buttons.append(Button(canvas, text="Choose hole", bg=button_color, activebackground=active_button_color,
+                              font=("Arial", 12, "bold"), command=lambda position=i: choose_to_move(position)))
+        buttons[i].place(x=95+130*i, y=40)
+    for i in range(6, 12):
+        buttons.append(Button(canvas, text="Choose hole", bg=button_color, activebackground=active_button_color,
+                              font=("Arial", 12, "bold"), command=lambda position=i: choose_to_move(position)))
+        buttons[i].place(x=95+130*(i-6), y=380)
 
 
 def two_players_game(main_window):
