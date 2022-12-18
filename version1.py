@@ -95,6 +95,7 @@ def a_player_cannot_move():
     return False
 
 
+# TODO: not used
 def is_game_over(player_one_score, player_two_score):
     if player_one_score >= 24:
         return True
