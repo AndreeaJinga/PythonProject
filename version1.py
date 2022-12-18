@@ -104,7 +104,7 @@ def is_game_over(player_one_score, player_two_score):
         return True
     return False
 
-
+#de sters comentariul asta
 def one_player_game(main_window):
     global turn, holes
     player_one_score, player_two_score = init_game()
