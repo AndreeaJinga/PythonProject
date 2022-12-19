@@ -51,21 +51,46 @@ def get_next_position_in_weird_circle(current_position):
     return position_to_change
 
 
-def move(starting_position):
+def calculate_points(last_modified_hole_position):
+    points = 0
+    return points
+
+
+def draw_holes(canvas, init_flag):
     global holes
-    position_to_change = get_next_position_in_weird_circle(starting_position)
+    first_row_of_holes = []
+    second_row_of_holes = []
+    for i in range(0, 6):
+        first_row_of_holes.append(canvas.create_oval(100 + i * 130, 100, 200 + i * 130, 200, fill="white"))
+        second_row_of_holes.append(canvas.create_oval(100 + i * 130, 250, 200 + i * 130, 350, fill="white"))
+    for i, hole in enumerate(holes):
+        if 0 <= i <= 5:
+            canvas.create_text(150 + i * 130, 150, text=str(hole), font=("Arial", 25, "bold"))
+            # if not init_flag:  # it would be nice to do...
+            #     time.sleep(0.5)
+        else:
+            canvas.create_text(150 + (i - 6) * 130, 300, text=str(hole), font=("Arial", 25, "bold"))
+            # if not init_flag:
+            #     time.sleep(0.5)
+
+
+def move(starting_position, canvas):
+    global holes
+    position_to_change = starting_position
     for i in range(0, holes[starting_position]):
+        position_to_change = get_next_position_in_weird_circle(position_to_change)
         if position_to_change == starting_position:
             continue
         holes[position_to_change] += 1
-        position_to_change = get_next_position_in_weird_circle(position_to_change)
     holes[starting_position] = 0
-    points = calculate_points(position_to_change)#TODO de verif aici ca e pos to change sau -1/+1
-    #TODO: caculate+points
-    #TODO: draw_holes_number in functie
+    points = calculate_points(position_to_change)
+    # TODO: caculate+points
+    # TODO: draw_holes_number in functie
+    draw_holes(canvas, False)
+    return points
 
 
-def choose_to_move2(position_button):
+def choose_to_move2(position_button, canvas):  # player two move
     global player_two_score, player_two_score_label, turn, turn_label, warning_unit
     if not valid_move(position_button):
         turn_label.config(font=("Arial", 9+warning_unit, "bold"))
@@ -74,7 +99,7 @@ def choose_to_move2(position_button):
         warning_unit = 0
         turn_label.config(font=("Arial", 9))
 
-        points = move(position_button)
+        points = move(position_button, canvas)
         player_two_score += points
         player_two_score_label.config(text=f"Player Two Score: {str(player_two_score)}")
 
@@ -82,7 +107,7 @@ def choose_to_move2(position_button):
         turn_label.config(text="It is player one turn!")
 
 
-def choose_to_move1(position_button):
+def choose_to_move1(position_button, canvas):  # player one move
     global player_one_score, player_one_score_label, turn, turn_label, warning_unit
     if not valid_move(position_button):
         turn_label.config(font=("Arial", 9+warning_unit, "bold"))
@@ -90,13 +115,16 @@ def choose_to_move1(position_button):
     else:
         warning_unit = 0
         turn_label.config(font=("Arial", 9))
-        player_one_score += 1
+
+        points = move(position_button, canvas)
+        player_one_score += points
         player_one_score_label.config(text=f"Player One Score: {str(player_one_score)}")
+
         turn = "player_two"
         turn_label.config(text="It is player two turn!")
 
 
-def draw_board(main_window, init_flag=False):
+def draw_board(main_window):
     global holes, player_two_score, player_one_score, turn_label, player_one_score_label, player_two_score_label
     one_player_frame = Frame(main_window, bg=boardgame_background_color, height=main_window_height,
                              width=main_window_width, highlightthickness=20,
@@ -111,31 +139,32 @@ def draw_board(main_window, init_flag=False):
     # TODO: MAKE IT PRETTY - rectangles
     first_rectangle = canvas.create_rectangle(70, 80, 880, 220)
     second_rectangle = canvas.create_rectangle(70, 230, 880, 370)
-    first_row_of_holes = []
-    second_row_of_holes = []
-    for i in range(0, 6):
-        first_row_of_holes.append(canvas.create_oval(100 + i * 130, 100, 200 + i * 130, 200))
-        second_row_of_holes.append(canvas.create_oval(100 + i * 130, 250, 200 + i * 130, 350))
+    # first_row_of_holes = []
+    # second_row_of_holes = []
+    # for i in range(0, 6):
+    #     first_row_of_holes.append(canvas.create_oval(100 + i * 130, 100, 200 + i * 130, 200))
+    #     second_row_of_holes.append(canvas.create_oval(100 + i * 130, 250, 200 + i * 130, 350))
+    # for i, hole in enumerate(holes):
+    #     if 0 <= i <= 5:
+    #         canvas.create_text(150 + i * 130, 150, text=str(hole), font=("Arial", 25, "bold"))
+    #         if not init_flag:
+    #             time.sleep(0.5)
+    #     else:
+    #         canvas.create_text(150 + (i-6) * 130, 300, text=str(hole), font=("Arial", 25, "bold"))
+    #         if not init_flag:
+    #             time.sleep(0.5)
+    draw_holes(canvas, True)
     buttons = []
     for i in range(0, 6):
         buttons.append(Button(canvas, text="Choose hole", bg=button_color, activebackground=active_button_color,
                               font=("Arial", 12, "bold"),
-                              command=lambda position=i: choose_to_move2(position)))
+                              command=lambda position=i: choose_to_move2(position, canvas)))
         buttons[i].place(x=95 + 130 * i, y=40)
     for i in range(6, 12):
         buttons.append(Button(canvas, text="Choose hole", bg=button_color, activebackground=active_button_color,
                               font=("Arial", 12, "bold"),
-                              command=lambda position=i: choose_to_move1(position)))
+                              command=lambda position=i: choose_to_move1(position, canvas)))
         buttons[i].place(x=95 + 130 * (i - 6), y=380)
-    for i, hole in enumerate(holes):
-        if 0 <= i <= 5:
-            canvas.create_text(150 + i * 130, 150, text=str(hole), font=("Arial", 25, "bold"))
-            if not init_flag:
-                time.sleep(0.5)
-        else:
-            canvas.create_text(150 + (i-6) * 130, 300, text=str(hole), font=("Arial", 25, "bold"))
-            if not init_flag:
-                time.sleep(0.5)
     turn_label = Label(canvas, text="It is player One turn!", bg=boardgame_background_color)
     turn_label.place(x=10, y=10)
 
@@ -178,14 +207,14 @@ def is_game_over():
 def one_player_game_init(main_window):
     global turn, holes
     init_game()
-    buttons, canvas = draw_board(main_window, init_flag=True)
+    buttons, canvas = draw_board(main_window)
 
 
 # TODO
 def two_players_game(main_window):
     global turn
     init_game()
-    buttons, canvas = draw_board(main_window, init_flag=True)
+    buttons, canvas = draw_board(main_window)
 
 
 def init2():
