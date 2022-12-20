@@ -1,3 +1,4 @@
+import random
 import time
 import tkinter.messagebox
 from tkinter import *
@@ -29,19 +30,11 @@ player_two_score_label = Label(None)
 # TODO: de sters printurile
 
 
-# TODO
-def a_player_cannot_move():
-    global holes
-    return False
-
-
 def is_game_over():
     global player_one_score, player_two_score
     if player_one_score >= 24:
         return True
     if player_two_score >= 24:
-        return True
-    if a_player_cannot_move():
         return True
     return False
 
@@ -59,16 +52,15 @@ def show_winner(main_window):
     elif player_two_score >= 24:
         winning_text = "The winner is PLAYER TWO!"
     else:
-        if a_player_cannot_move():
-            for i in range(6, 12):
-                player_one_score += holes[i]
-            for i in range(0, 6):
-                player_two_score += holes[i]
-            winning_text = "After collecting all the stones, The winner is PLAYER ONE!"
-            if player_two_score > player_one_score:
-                winning_text = "After collecting all the stones, The winner is PLAYER TWO!"
-            elif player_two_score == player_one_score:
-                winning_text = "Well, we'll just have to call it a draw."
+        for i in range(6, 12):
+            player_one_score += holes[i]
+        for i in range(0, 6):
+            player_two_score += holes[i]
+        winning_text = "After collecting all the stones,\nThe winner is PLAYER ONE!"
+        if player_two_score > player_one_score:
+            winning_text = "After collecting all the stones,\nThe winner is PLAYER TWO!"
+        elif player_two_score == player_one_score:
+            winning_text = "Well, we'll just have to call it a draw."
 
     winner_label = Label(winner_frame, text=winning_text, bg=active_button_color, padx=10, pady=2.5,
                          font=("Lucida Calligraphy", 30, "bold"))
@@ -77,13 +69,13 @@ def show_winner(main_window):
 
 def verify_breaking_rule(copy_holes, pressed_button, player):
     """
-    Astfel in functia de validare simulam
-    mutarea jucatorului si verificam la final starea casutelor adversarului, adica verificam la final
-    ca macar o casuta a adversarului sa aiba pietre.
-    :param copy_holes:
-    :param pressed_button:
-    :param player:
-    :return:
+    Functia valideaza regula conform careia adversarul nu poate ramane fara pietre in urma adunarii punctelor obtinute
+    dupa o mutare. Astfel simulam mutarea jucatorului si verificam la final starea casutelor adversarului, adica
+    verificam la final ca macar o casuta a adversarului sa aiba pietre.
+    :param copy_holes: o copie a listei holes, care tine evidenta pietrelor din casute
+    :param pressed_button: mutarea care trebuie validata
+    :param player: jucatorul care a facut mutarea
+    :return: True in cazul in care regula este incalcata si False altfel
     """
     final_position = pressed_button
     for i in range(0, copy_holes[pressed_button]):
@@ -120,7 +112,6 @@ def verify_breaking_rule(copy_holes, pressed_button, player):
     return True
 
 
-# TODO
 def is_opponent_starving(copy_holes, pressed_button, player):
     if player == "player one":
         for i in range(0, 6):
@@ -271,26 +262,21 @@ def draw_holes(canvas, init_flag):
 
 def move(starting_position, canvas, player):
     global holes
-    # print("move", starting_position, player, "holes:", holes)
     position_to_change = starting_position
     for i in range(0, holes[starting_position]):
         position_to_change = get_next_position_in_weird_circle(position_to_change)
         if position_to_change == starting_position:
+            i -= 1
             continue
-        # print("position_to_change", position_to_change)
         holes[position_to_change] += 1
-    # print("holes", holes)
     holes[starting_position] = 0
     draw_holes(canvas, False)
-    # print("holes", holes)
 
     points = calculate_points(position_to_change, player)
     return points
 
 
 def choose_to_move2(position_button, canvas, main_window):  # player two move
-    # print("_----------------------------------------")
-    # print("choose to move 2", position_button)
     global player_two_score, player_two_score_label, turn, turn_label, warning_unit
     is_valid, error = valid_move(position_button)
     if not is_valid:
@@ -300,7 +286,7 @@ def choose_to_move2(position_button, canvas, main_window):  # player two move
         elif error == "rule break":
             tkinter.messagebox.showwarning(title="Rule break", message="You will leave your opponent without stones!")
         elif error == "starving":
-            tkinter.messagebox.showwarning("Rule break", message="Your opponent is starving! You must give him some!")
+            tkinter.messagebox.showwarning("Rule break", message="Your opponent is starving! You must give him stones!")
         elif error == "empty hole":
             tkinter.messagebox.showwarning(title="Empty hole", message="What are you supposed to move?!")
     else:
@@ -310,7 +296,9 @@ def choose_to_move2(position_button, canvas, main_window):  # player two move
         points = move(position_button, canvas, "player two")
         if points != 0:
             player_two_score += points
-            player_two_score_label.config(text=f"Player Two Score: {str(player_two_score)}")
+            main_window.after(1000, lambda: player_one_score_label.config(text=
+                                                                          f"Player Two Score: {str(player_one_score)}"))
+
             draw_holes(canvas, False)
 
         if not is_game_over():
@@ -321,29 +309,28 @@ def choose_to_move2(position_button, canvas, main_window):  # player two move
 
 
 def choose_to_move1(position_button, canvas, main_window):  # player one move
-    # print("_----------------------------------------")
-    # print("choose to move1", position_button)
     global player_one_score, player_one_score_label, turn, turn_label, warning_unit
     is_valid, error = valid_move(position_button)
     if not is_valid:
         if error == "rule break":
             tkinter.messagebox.showwarning(title="Rule break", message="You will leave your opponent without stones!")
         elif error == "starving":
-            tkinter.messagebox.showwarning("Rule break", message="Your opponent is starving! You must give him some!")
+            tkinter.messagebox.showwarning("Rule break", message="Your opponent is starving! You must give him stones!")
         elif error == "empty hole":
             tkinter.messagebox.showwarning(title="Empty hole", message="What are you supposed to move?!")
         elif error == "incorrect hole":
             turn_label.config(font=("Arial", 9 + warning_unit, "bold"))
             warning_unit += 1
+        return False
     else:
-        # print("valid move")
         warning_unit = 0
         turn_label.config(font=("Arial", 9))
 
         points = move(position_button, canvas, "player one")
         if points != 0:
             player_one_score += points
-            player_one_score_label.config(text=f"Player One Score: {str(player_one_score)}")
+            main_window.after(1000, lambda: player_one_score_label.config(text=
+                                                                          f"Player One Score: {str(player_one_score)}"))
             draw_holes(canvas, False)
 
         if not is_game_over():
@@ -351,9 +338,49 @@ def choose_to_move1(position_button, canvas, main_window):  # player one move
             turn_label.config(text="It is player two turn!")
         else:
             show_winner(main_window)
+        return True
 
 
-def draw_board(main_window):
+def possible_moves_for_player2_aka_bot():
+    global holes
+    possible_moves = []
+    for i in range(0, 6):
+        if valid_move(i)[0]:
+            possible_moves.append(i)
+    return possible_moves
+
+
+def make_move_for_bot(canvas, main_window):
+    global player_two_score, player_two_score_label, turn, turn_label
+    bot_moves = possible_moves_for_player2_aka_bot()
+    chosen_move = random.choice(bot_moves)
+
+    points = move(chosen_move, canvas, "player two")
+    if points != 0:
+        player_two_score += points
+        player_two_score_label.config(text=f"Player Two Score: {str(player_two_score)}")
+        draw_holes(canvas, False)
+
+    if not is_game_over():
+        turn = "player_one"
+        turn_label.config(text="It is player one turn!")
+    else:
+        show_winner(main_window)
+
+
+def play_with_bot(position_button, canvas, main_window):  # player one move, then bot
+    global turn, turn_label
+    success = choose_to_move1(position_button, canvas, main_window)
+    if not success:
+        return
+
+    turn = "player_two"
+    turn_label.config(text="Player two is moving...")
+
+    main_window.after(4000, lambda: make_move_for_bot(canvas, main_window))
+
+
+def draw_board(main_window, no_of_players):
     global holes, player_two_score, player_one_score, turn_label, player_one_score_label, player_two_score_label
     one_player_frame = Frame(main_window, bg=boardgame_background_color, height=main_window_height,
                              width=main_window_width, highlightthickness=20,
@@ -378,7 +405,8 @@ def draw_board(main_window):
     for i in range(6, 12):
         buttons.append(Button(canvas, text="Choose hole", bg=button_color, activebackground=active_button_color,
                               font=("Arial", 12, "bold"),
-                              command=lambda position=i: choose_to_move1(position, canvas, main_window)))
+                              command=lambda position=i: choose_to_move1(position, canvas, main_window)
+                              if no_of_players == 2 else play_with_bot(position, canvas, main_window)))
         buttons[i].place(x=95 + 130 * (i - 6), y=380)
     turn_label = Label(canvas, text="It is player One turn!", bg=boardgame_background_color)
     turn_label.place(x=10, y=10)
@@ -390,6 +418,12 @@ def draw_board(main_window):
     player_two_score_label = Label(canvas, text=f"Player Two Score: {str(player_two_score)}",
                                    bg=boardgame_background_color, font=("Arial", 10, "bold"))
     player_two_score_label.place(x=400, y=10)
+
+    force_finnish_button = Button(canvas, text="Finnish the game now", bg=button_color,
+                                  activebackground=active_button_color, font=("Arial", 10, "bold"),
+                                  command=lambda: show_winner(main_window))
+    force_finnish_button.place(x=780, y=417)
+
     return buttons, canvas
 
 
@@ -404,14 +438,13 @@ def init_game():
 def one_player_game_init(main_window):
     global turn, holes
     init_game()
-    buttons, canvas = draw_board(main_window)
+    buttons, canvas = draw_board(main_window, 1)
 
 
-# TODO
 def two_players_game(main_window):
-    global turn
+    global turn, holes
     init_game()
-    buttons, canvas = draw_board(main_window)
+    buttons, canvas = draw_board(main_window, 2)
 
 
 def init2():
