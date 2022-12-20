@@ -1,4 +1,5 @@
 import time
+import tkinter.messagebox
 from tkinter import *
 # from tkinter import ttk
 # from tkinter import messagebox
@@ -17,29 +18,119 @@ main_window_height = 500
 
 # global variables
 turn = "player_one"
-turn_label = Label(None)
 holes = []
 player_one_score = 0
-player_one_score_label = Label(None)
 player_two_score = 0
-player_two_score_label = Label(None)
 warning_unit = 0
+turn_label = Label(None)
+player_one_score_label = Label(None)
+player_two_score_label = Label(None)
 
 
-# TODO FOR TODAY: set-up pentru logica <-> initializarea jocului <-> apel func dupa draw_board;
-#  facut functia de move + de spefic ce validari ar fi de facut;
-#  de stabilit cum va arata final
-def valid_move(pressed_button):
-    global turn
-    if 0 <= pressed_button <= 5 and turn == "player_two":
+# TODO
+def a_player_cannot_move():
+    global holes
+    return False
+
+
+def is_game_over():
+    global player_one_score, player_two_score
+    if player_one_score >= 24:
         return True
-    if 6 <= pressed_button <= 11 and turn == "player_one":
+    if player_two_score >= 24:
+        return True
+    if a_player_cannot_move():
         return True
     return False
 
 
+def show_winner(main_window):
+    global holes, player_one_score, player_two_score
+    winner_frame = Frame(main_window, bg=boardgame_background_color, height=main_window_height, width=main_window_width,
+                         highlightthickness=20, highlightbackground=boardgame_background_color)
+    winner_frame.place(relx=0.5, rely=0.5, anchor=CENTER)
+    winner_frame.tkraise()
+
+    winning_text = ""
+    if player_one_score >= 24:
+        winning_text = "The winner is PLAYER ONE!"
+    elif player_two_score >= 24:
+        winning_text = "The winner is PLAYER TWO!"
+    else:
+        if a_player_cannot_move():
+            for i in range(6, 12):
+                player_one_score += holes[i]
+            for i in range(0, 6):
+                player_two_score += holes[i]
+            winning_text = "After collecting all the stones, The winner is PLAYER ONE!"
+            if player_two_score > player_one_score:
+                winning_text = "After collecting all the stones, The winner is PLAYER TWO!"
+            elif player_two_score == player_one_score:
+                winning_text = "Well, we'll just have to call it a draw."
+
+    winner_label = Label(winner_frame, text=winning_text, bg=active_button_color, padx=10, pady=2.5,
+                         font=("Lucida Calligraphy", 30, "bold"))
+    winner_label.place(relx=0.5, rely=0.5, anchor=CENTER)
+
+
+def valid_move(pressed_button):
+    """
+    Functia valideaza o miscare pe care un jucator vrea sa o faca. Conform regulilor o miscare este
+    valida daca jucatorul alege pietre din cadrul casutelor lui (de pe partea lui de tabla) si daca
+    acesta nu il lasa pe adversar fara pietre cu aceasta mutare. Astfel in functia de validare simulam
+    mutarea jucatorului si verificam la final starea casutelor adversarului, adica verificam la final
+    ca macar o casuta a adversarului sa aiba pietre.
+    :param pressed_button: Reprezinta pozitia casutei aleasa de jucator pentru a muta
+    :return: Functia returneaza o tupla. Primul element al tuplei este True daca mutarea este valida,
+    si False in caz contrar. Al doilea element al tuplei reprezinta un cod de eroare in caz ca mutarea
+    nu este valida, pentru a afisa motivul in mod corespunzator, si None in caz de validitate.
+    """
+    global turn
+    if 0 <= pressed_button <= 5 and turn == "player_two":
+        if holes[pressed_button] == 0:
+            return False, "empty hole"
+        copy_holes = holes.copy()
+        final_position = pressed_button
+        for i in range(0, copy_holes[pressed_button]):
+            final_position = get_next_position_in_weird_circle(final_position)
+        while 6 <= final_position <= 11:
+            if 2 <= copy_holes[final_position] <= 3:
+                copy_holes[final_position] = 0
+                final_position = get_previous_position_in_weird_circle(final_position)
+            else:
+                break
+        every_hole_is_empty = True
+        for i in range(0, 6):
+            if copy_holes[i] != 0:
+                every_hole_is_empty = False
+        if every_hole_is_empty:
+            return False, "rule break"
+        return True, None
+    if 6 <= pressed_button <= 11 and turn == "player_one":
+        if holes[pressed_button] == 0:
+            return False, "empty hole"
+        copy_holes = holes.copy()
+        final_position = pressed_button
+        for i in range(0, copy_holes[pressed_button]):
+            final_position = get_next_position_in_weird_circle(final_position)
+        while 0 <= final_position <= 5:
+            if 2 <= copy_holes[final_position] <= 3:
+                copy_holes[final_position] = 0
+                final_position = get_previous_position_in_weird_circle(final_position)
+            else:
+                break
+        every_hole_is_empty = True
+        for i in range(0, 6):
+            if copy_holes[i] != 0:
+                every_hole_is_empty = False
+        if every_hole_is_empty:
+            return False, "rule break"
+        return True, None
+    return False, "incorrect hole"
+
+
 def get_next_position_in_weird_circle(current_position):
-    position_to_change = 0
+    position_to_change = current_position
     if 6 <= current_position <= 10:
         position_to_change = current_position + 1
     elif 1 <= current_position <= 5:
@@ -51,8 +142,47 @@ def get_next_position_in_weird_circle(current_position):
     return position_to_change
 
 
-def calculate_points(last_modified_hole_position):
+def get_previous_position_in_weird_circle(current_position):
+    position_to_change = current_position
+    if 7 <= current_position <= 11:
+        position_to_change = current_position - 1
+    elif 0 <= current_position <= 4:
+        position_to_change = current_position + 1
+    elif current_position == 5:
+        position_to_change = 11
+    elif current_position == 4:
+        position_to_change = 0
+    return position_to_change
+
+
+def calculate_points(last_modified_hole_position, player):
+    print("calculate_points; position:", last_modified_hole_position)
+    global holes
+    print("holes:", holes)
     points = 0
+    current_position = last_modified_hole_position
+    if player == "player one":
+        print("calculate points, player one turn")
+        while 0 <= current_position <= 5:
+            print("current_pos: ", current_position)
+            if 2 <= holes[current_position] <= 3:
+                points += holes[current_position]
+                holes[current_position] = 0
+                current_position = get_previous_position_in_weird_circle(current_position)
+            else:
+                break
+            print("holes", holes)
+    else:
+        print("calculate points, player two turn")
+        while 6 <= current_position <= 11:
+            print("current_pos: ", current_position)
+            if 2 <= holes[current_position] <= 3:
+                points += holes[current_position]
+                holes[current_position] = 0
+                current_position = get_previous_position_in_weird_circle(current_position)
+            else:
+                break
+            print("holes", holes)
     return points
 
 
@@ -74,54 +204,85 @@ def draw_holes(canvas, init_flag):
             #     time.sleep(0.5)
 
 
-def move(starting_position, canvas):
+def move(starting_position, canvas, player):
     global holes
+    print("move", starting_position, player, "holes:", holes)
     position_to_change = starting_position
     for i in range(0, holes[starting_position]):
         position_to_change = get_next_position_in_weird_circle(position_to_change)
         if position_to_change == starting_position:
             continue
+        print("position_to_change", position_to_change)
         holes[position_to_change] += 1
+    print("holes", holes)
     holes[starting_position] = 0
-    points = calculate_points(position_to_change)
-    # TODO: caculate+points
-    # TODO: draw_holes_number in functie
     draw_holes(canvas, False)
+    print("holes", holes)
+
+    points = calculate_points(position_to_change, player)
     return points
 
 
-def choose_to_move2(position_button, canvas):  # player two move
+def choose_to_move2(position_button, canvas, main_window):  # player two move
+    print("_----------------------------------------")
+    print("choose to move 2", position_button)
     global player_two_score, player_two_score_label, turn, turn_label, warning_unit
-    if not valid_move(position_button):
-        turn_label.config(font=("Arial", 9+warning_unit, "bold"))
-        warning_unit += 1
+    is_valid, error = valid_move(position_button)
+    if not is_valid:
+        if error == "incorrect hole":
+            turn_label.config(font=("Arial", 9+warning_unit, "bold"))
+            warning_unit += 1
+        elif error == "rule break":
+            tkinter.messagebox.showwarning(title="Rule break", message="You will leave your opponent without stones!")
+        elif error == "empty hole":
+            tkinter.messagebox.showwarning(title="Empty hole", message="What are you supposed to move?!")
     else:
+        print("valid")
         warning_unit = 0
         turn_label.config(font=("Arial", 9))
 
-        points = move(position_button, canvas)
-        player_two_score += points
-        player_two_score_label.config(text=f"Player Two Score: {str(player_two_score)}")
+        points = move(position_button, canvas, "player two")
+        if points != 0:
+            player_two_score += points
+            player_two_score_label.config(text=f"Player Two Score: {str(player_two_score)}")
+            draw_holes(canvas, False)
 
-        turn = "player_one"
-        turn_label.config(text="It is player one turn!")
+        if not is_game_over():
+            turn = "player_one"
+            turn_label.config(text="It is player one turn!")
+        else:
+            show_winner(main_window)
 
 
-def choose_to_move1(position_button, canvas):  # player one move
+def choose_to_move1(position_button, canvas, main_window):  # player one move
+    print("_----------------------------------------")
+    print("choose to move1", position_button)
     global player_one_score, player_one_score_label, turn, turn_label, warning_unit
-    if not valid_move(position_button):
-        turn_label.config(font=("Arial", 9+warning_unit, "bold"))
-        warning_unit += 1
+    is_valid, error = valid_move(position_button)
+    if not is_valid:
+        if error == "rule break":
+            tkinter.messagebox.showwarning(title="Rule break", message="You will leave your opponent without stones!")
+        elif error == "empty hole":
+            tkinter.messagebox.showwarning(title="Empty hole", message="What are you supposed to move?!")
+        elif error == "incorrect hole":
+            turn_label.config(font=("Arial", 9 + warning_unit, "bold"))
+            warning_unit += 1
     else:
+        print("valid move")
         warning_unit = 0
         turn_label.config(font=("Arial", 9))
 
-        points = move(position_button, canvas)
-        player_one_score += points
-        player_one_score_label.config(text=f"Player One Score: {str(player_one_score)}")
+        points = move(position_button, canvas, "player one")
+        if points != 0:
+            player_one_score += points
+            player_one_score_label.config(text=f"Player One Score: {str(player_one_score)}")
+            draw_holes(canvas, False)
 
-        turn = "player_two"
-        turn_label.config(text="It is player two turn!")
+        if not is_game_over():
+            turn = "player_two"
+            turn_label.config(text="It is player two turn!")
+        else:
+            show_winner(main_window)
 
 
 def draw_board(main_window):
@@ -158,12 +319,12 @@ def draw_board(main_window):
     for i in range(0, 6):
         buttons.append(Button(canvas, text="Choose hole", bg=button_color, activebackground=active_button_color,
                               font=("Arial", 12, "bold"),
-                              command=lambda position=i: choose_to_move2(position, canvas)))
+                              command=lambda position=i: choose_to_move2(position, canvas, main_window)))
         buttons[i].place(x=95 + 130 * i, y=40)
     for i in range(6, 12):
         buttons.append(Button(canvas, text="Choose hole", bg=button_color, activebackground=active_button_color,
                               font=("Arial", 12, "bold"),
-                              command=lambda position=i: choose_to_move1(position, canvas)))
+                              command=lambda position=i: choose_to_move1(position, canvas, main_window)))
         buttons[i].place(x=95 + 130 * (i - 6), y=380)
     turn_label = Label(canvas, text="It is player One turn!", bg=boardgame_background_color)
     turn_label.place(x=10, y=10)
@@ -184,24 +345,6 @@ def init_game():
         holes.append(4)                 # 4 4 4 4 4 4 <- player1
     player_one_score = 0
     player_two_score = 0
-
-
-# TODO
-def a_player_cannot_move():
-    global holes
-    return False
-
-
-# TODO: not used
-def is_game_over():
-    global player_one_score, player_two_score
-    if player_one_score >= 24:
-        return True
-    if player_two_score >= 24:
-        return True
-    if a_player_cannot_move():
-        return True
-    return False
 
 
 def one_player_game_init(main_window):
