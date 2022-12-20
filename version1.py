@@ -26,6 +26,8 @@ turn_label = Label(None)
 player_one_score_label = Label(None)
 player_two_score_label = Label(None)
 
+# TODO: de sters printurile
+
 
 # TODO
 def a_player_cannot_move():
@@ -73,13 +75,88 @@ def show_winner(main_window):
     winner_label.place(relx=0.5, rely=0.5, anchor=CENTER)
 
 
+def verify_breaking_rule(copy_holes, pressed_button, player):
+    """
+    Astfel in functia de validare simulam
+    mutarea jucatorului si verificam la final starea casutelor adversarului, adica verificam la final
+    ca macar o casuta a adversarului sa aiba pietre.
+    :param copy_holes:
+    :param pressed_button:
+    :param player:
+    :return:
+    """
+    final_position = pressed_button
+    for i in range(0, copy_holes[pressed_button]):
+        final_position = get_next_position_in_weird_circle(final_position)
+        if final_position == pressed_button:
+            continue
+        copy_holes[final_position] += 1
+    if player == "player one":
+        while 0 <= final_position <= 5:
+            if 2 <= copy_holes[final_position] <= 3:
+                copy_holes[final_position] = 0
+                final_position = get_previous_position_in_weird_circle(final_position)
+            else:
+                break
+        still_have_stones = False
+        for i in range(0, 6):
+            if copy_holes[i] != 0:
+                still_have_stones = True
+        if still_have_stones:
+            return False
+    else:
+        while 6 <= final_position <= 11:
+            if 2 <= copy_holes[final_position] <= 3:
+                copy_holes[final_position] = 0
+                final_position = get_previous_position_in_weird_circle(final_position)
+            else:
+                break
+        still_have_stones = False
+        for i in range(6, 12):
+            if copy_holes[i] != 0:
+                still_have_stones = True
+        if still_have_stones:
+            return False
+    return True
+
+
+# TODO
+def is_opponent_starving(copy_holes, pressed_button, player):
+    if player == "player one":
+        for i in range(0, 6):
+            if copy_holes[i] != 0:
+                return False
+        final_position = pressed_button
+        for i in range(0, copy_holes[pressed_button]):
+            final_position = get_next_position_in_weird_circle(final_position)
+            if final_position == pressed_button:
+                continue
+            copy_holes[final_position] += 1
+        for i in range(0, 6):
+            if copy_holes[i] != 0:
+                return False
+    else:
+        for i in range(6, 12):
+            if copy_holes[i] != 0:
+                return False
+        final_position = pressed_button
+        for i in range(0, copy_holes[pressed_button]):
+            final_position = get_next_position_in_weird_circle(final_position)
+            if final_position == pressed_button:
+                continue
+            copy_holes[final_position] += 1
+        for i in range(6, 12):
+            if copy_holes[i] != 0:
+                return False
+    return True
+
+
 def valid_move(pressed_button):
     """
     Functia valideaza o miscare pe care un jucator vrea sa o faca. Conform regulilor o miscare este
-    valida daca jucatorul alege pietre din cadrul casutelor lui (de pe partea lui de tabla) si daca
-    acesta nu il lasa pe adversar fara pietre cu aceasta mutare. Astfel in functia de validare simulam
-    mutarea jucatorului si verificam la final starea casutelor adversarului, adica verificam la final
-    ca macar o casuta a adversarului sa aiba pietre.
+    valida daca jucatorul alege pietre din cadrul casutelor lui (de pe partea lui de tabla), daca
+    acesta nu il lasa pe adversar fara pietre cu aceasta mutare, si daca nu il infometeaza pe adversar, adica el
+    deja nu mai are pietre iar jucatorul este obligat sa-i ofere.
     :param pressed_button: Reprezinta pozitia casutei aleasa de jucator pentru a muta
     :return: Functia returneaza o tupla. Primul element al tuplei este True daca mutarea este valida,
     si False in caz contrar. Al doilea element al tuplei reprezinta un cod de eroare in caz ca mutarea
@@ -89,42 +166,30 @@ def valid_move(pressed_button):
     if 0 <= pressed_button <= 5 and turn == "player_two":
         if holes[pressed_button] == 0:
             return False, "empty hole"
+
         copy_holes = holes.copy()
-        final_position = pressed_button
-        for i in range(0, copy_holes[pressed_button]):
-            final_position = get_next_position_in_weird_circle(final_position)
-        while 6 <= final_position <= 11:
-            if 2 <= copy_holes[final_position] <= 3:
-                copy_holes[final_position] = 0
-                final_position = get_previous_position_in_weird_circle(final_position)
-            else:
-                break
-        every_hole_is_empty = True
-        for i in range(0, 6):
-            if copy_holes[i] != 0:
-                every_hole_is_empty = False
-        if every_hole_is_empty:
+        if is_opponent_starving(copy_holes, pressed_button, "player two"):
+            return False, "starving"
+
+        copy_holes = holes.copy()
+        is_rule_broken = verify_breaking_rule(copy_holes, pressed_button, "player two")
+        if is_rule_broken:
             return False, "rule break"
+
         return True, None
     if 6 <= pressed_button <= 11 and turn == "player_one":
         if holes[pressed_button] == 0:
             return False, "empty hole"
+
         copy_holes = holes.copy()
-        final_position = pressed_button
-        for i in range(0, copy_holes[pressed_button]):
-            final_position = get_next_position_in_weird_circle(final_position)
-        while 0 <= final_position <= 5:
-            if 2 <= copy_holes[final_position] <= 3:
-                copy_holes[final_position] = 0
-                final_position = get_previous_position_in_weird_circle(final_position)
-            else:
-                break
-        every_hole_is_empty = True
-        for i in range(0, 6):
-            if copy_holes[i] != 0:
-                every_hole_is_empty = False
-        if every_hole_is_empty:
+        if is_opponent_starving(copy_holes, pressed_button, "player one"):
+            return False, "starving"
+
+        copy_holes = holes.copy()
+        is_rule_broken = verify_breaking_rule(copy_holes, pressed_button, "player one")
+        if is_rule_broken:
             return False, "rule break"
+
         return True, None
     return False, "incorrect hole"
 
@@ -156,33 +221,33 @@ def get_previous_position_in_weird_circle(current_position):
 
 
 def calculate_points(last_modified_hole_position, player):
-    print("calculate_points; position:", last_modified_hole_position)
+    # print("calculate_points; position:", last_modified_hole_position)
     global holes
-    print("holes:", holes)
+    # print("holes:", holes)
     points = 0
     current_position = last_modified_hole_position
     if player == "player one":
-        print("calculate points, player one turn")
+        # print("calculate points, player one turn")
         while 0 <= current_position <= 5:
-            print("current_pos: ", current_position)
+            # print("current_pos: ", current_position)
             if 2 <= holes[current_position] <= 3:
                 points += holes[current_position]
                 holes[current_position] = 0
                 current_position = get_previous_position_in_weird_circle(current_position)
             else:
                 break
-            print("holes", holes)
+            # print("holes", holes)
     else:
-        print("calculate points, player two turn")
+        # print("calculate points, player two turn")
         while 6 <= current_position <= 11:
-            print("current_pos: ", current_position)
+            # print("current_pos: ", current_position)
             if 2 <= holes[current_position] <= 3:
                 points += holes[current_position]
                 holes[current_position] = 0
                 current_position = get_previous_position_in_weird_circle(current_position)
             else:
                 break
-            print("holes", holes)
+            # print("holes", holes)
     return points
 
 
@@ -206,26 +271,26 @@ def draw_holes(canvas, init_flag):
 
 def move(starting_position, canvas, player):
     global holes
-    print("move", starting_position, player, "holes:", holes)
+    # print("move", starting_position, player, "holes:", holes)
     position_to_change = starting_position
     for i in range(0, holes[starting_position]):
         position_to_change = get_next_position_in_weird_circle(position_to_change)
         if position_to_change == starting_position:
             continue
-        print("position_to_change", position_to_change)
+        # print("position_to_change", position_to_change)
         holes[position_to_change] += 1
-    print("holes", holes)
+    # print("holes", holes)
     holes[starting_position] = 0
     draw_holes(canvas, False)
-    print("holes", holes)
+    # print("holes", holes)
 
     points = calculate_points(position_to_change, player)
     return points
 
 
 def choose_to_move2(position_button, canvas, main_window):  # player two move
-    print("_----------------------------------------")
-    print("choose to move 2", position_button)
+    # print("_----------------------------------------")
+    # print("choose to move 2", position_button)
     global player_two_score, player_two_score_label, turn, turn_label, warning_unit
     is_valid, error = valid_move(position_button)
     if not is_valid:
@@ -234,10 +299,11 @@ def choose_to_move2(position_button, canvas, main_window):  # player two move
             warning_unit += 1
         elif error == "rule break":
             tkinter.messagebox.showwarning(title="Rule break", message="You will leave your opponent without stones!")
+        elif error == "starving":
+            tkinter.messagebox.showwarning("Rule break", message="Your opponent is starving! You must give him some!")
         elif error == "empty hole":
             tkinter.messagebox.showwarning(title="Empty hole", message="What are you supposed to move?!")
     else:
-        print("valid")
         warning_unit = 0
         turn_label.config(font=("Arial", 9))
 
@@ -255,20 +321,22 @@ def choose_to_move2(position_button, canvas, main_window):  # player two move
 
 
 def choose_to_move1(position_button, canvas, main_window):  # player one move
-    print("_----------------------------------------")
-    print("choose to move1", position_button)
+    # print("_----------------------------------------")
+    # print("choose to move1", position_button)
     global player_one_score, player_one_score_label, turn, turn_label, warning_unit
     is_valid, error = valid_move(position_button)
     if not is_valid:
         if error == "rule break":
             tkinter.messagebox.showwarning(title="Rule break", message="You will leave your opponent without stones!")
+        elif error == "starving":
+            tkinter.messagebox.showwarning("Rule break", message="Your opponent is starving! You must give him some!")
         elif error == "empty hole":
             tkinter.messagebox.showwarning(title="Empty hole", message="What are you supposed to move?!")
         elif error == "incorrect hole":
             turn_label.config(font=("Arial", 9 + warning_unit, "bold"))
             warning_unit += 1
     else:
-        print("valid move")
+        # print("valid move")
         warning_unit = 0
         turn_label.config(font=("Arial", 9))
 
@@ -300,20 +368,6 @@ def draw_board(main_window):
     # TODO: MAKE IT PRETTY - rectangles
     first_rectangle = canvas.create_rectangle(70, 80, 880, 220)
     second_rectangle = canvas.create_rectangle(70, 230, 880, 370)
-    # first_row_of_holes = []
-    # second_row_of_holes = []
-    # for i in range(0, 6):
-    #     first_row_of_holes.append(canvas.create_oval(100 + i * 130, 100, 200 + i * 130, 200))
-    #     second_row_of_holes.append(canvas.create_oval(100 + i * 130, 250, 200 + i * 130, 350))
-    # for i, hole in enumerate(holes):
-    #     if 0 <= i <= 5:
-    #         canvas.create_text(150 + i * 130, 150, text=str(hole), font=("Arial", 25, "bold"))
-    #         if not init_flag:
-    #             time.sleep(0.5)
-    #     else:
-    #         canvas.create_text(150 + (i-6) * 130, 300, text=str(hole), font=("Arial", 25, "bold"))
-    #         if not init_flag:
-    #             time.sleep(0.5)
     draw_holes(canvas, True)
     buttons = []
     for i in range(0, 6):
