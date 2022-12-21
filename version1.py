@@ -1,3 +1,6 @@
+"""
+@autor: Jinga Andreea
+"""
 import random
 import tkinter.messagebox
 from tkinter import *
@@ -24,9 +27,9 @@ holes = []
 player_one_score = 0
 player_two_score = 0
 warning_unit = 0
-turn_label = Label(None)
-player_one_score_label = Label(None)
-player_two_score_label = Label(None)
+turn_label = None
+player_one_score_label = None
+player_two_score_label = None
 
 
 def is_game_over():
@@ -44,6 +47,15 @@ def is_game_over():
 
 
 def show_winner(main_window):
+    """
+    Functia se ocupa cu stabilirea si afisarea castigatorului jocului. Pentru a stabili castigatorul verificam scorul
+    actual al fiecarui jucator, castigator fiind cel care are peste 24 de puncte. Daca niciun jucator nu are peste 24
+    de puncte atunci jocul s-a terminat fortat si fiecare jucator primeste pietrele de pe partea lui de tabla. Astfel
+    stabilirea jucatorului se va face dupa efectuarea acestui calcul. La final fereastra BoardGame va fi inlocuita cu
+    winner_frame
+    :param main_window: o referinta care window-ul principal peste care se va pune winner_frame
+    :return: fara tip de return.
+    """
     global holes, player_one_score, player_two_score
     winner_frame = Frame(main_window, bg=color_palette['boardgame_background_color'], height=main_window_height,
                          width=main_window_width, highlightthickness=20,
@@ -118,6 +130,16 @@ def verify_breaking_rule(copy_holes, pressed_button, player):
 
 
 def is_opponent_starving(copy_holes, pressed_button, player):
+    """
+    Functia verifica incalcarea regulii "Adversarul nu trebuie să fie niciodată înfometat". Conform acestei reguli daca
+    adversarul ramane fara pietre in urma mutarii lui, jucatorul este obligat sa alega o mutare care sa ii ofere pietre
+    adversarului pentru mutarea viitoare. Functia verifica daca adversarul de afla in situatie de informetare, iar in
+    acest caz simuleaza mutarea pentru a verifica daca acesta se va afla in stare de infometare si dupa mutare.
+    :param copy_holes: o copie a listei de casute si pietre pe care se va simula mutarea
+    :param pressed_button: mutarea aleasa de jucator
+    :param player: jucatorul care face mutarea
+    :return: Functia returneaza True in cazul in care in urma mutarii adversarul este infometat, False altfel
+    """
     if player == "player one":
         for i in range(0, 6):
             if copy_holes[i] != 0:
@@ -191,6 +213,13 @@ def valid_move(pressed_button):
 
 
 def get_next_position_in_weird_circle(current_position):
+    """
+    Sensul de mutare al pietrelor este contrar acelor de ceasornic. Astfel deplasarea in lista holes cu 12 elemente
+    se va face urmand sensul indicilor: 6, 7, 8, 9, 10, 11, 5, 4, 3, 2, 1, 9. Aceasta functie da urmatoarea pozitie
+    care urmeaza in acest sens al deplasarii.
+    :param current_position: pozitia initiala pe care ne aflam
+    :return: pozitia finala dupa deplasare
+    """
     position_to_change = current_position
     if 6 <= current_position <= 10:
         position_to_change = current_position + 1
@@ -204,6 +233,13 @@ def get_next_position_in_weird_circle(current_position):
 
 
 def get_previous_position_in_weird_circle(current_position):
+    """
+    Sensul de mutare al pietrelor este contrar acelor de ceasornic. Astfel deplasarea in lista holes cu 12 elemente
+    se va face urmand sensul indicilor: 6, 7, 8, 9, 10, 11, 5, 4, 3, 2, 1, 9. Aceasta functie da pozitia anterioara, cea
+    de pe care am ajuns pe pozitia curenta.
+    :param current_position: pozitia pe care ne aflam la inceput
+    :return: pozitia anterioara
+    """
     position_to_change = current_position
     if 7 <= current_position <= 11:
         position_to_change = current_position - 1
@@ -217,6 +253,14 @@ def get_previous_position_in_weird_circle(current_position):
 
 
 def calculate_points(last_modified_hole_position, player):
+    """
+    Functia calculeaza punctele castigate de jucator intr-o runda astfel: se considera puncte castigate pietrele din
+    toate casutele consecutive, incepand cu ultima casuta modificata de jucator, care contin 2 sau 3 pietre. Toate
+    casutele din care se calculeaza punctele trebuie sa fie ale adversarului.
+    :param last_modified_hole_position: ultima casuta in care jucatorul a pus o piatra
+    :param player: jucatorul care a facut mutarea
+    :return: numarul de puncte castigate
+    """
     global holes
     points = 0
     current_position = last_modified_hole_position
@@ -240,6 +284,11 @@ def calculate_points(last_modified_hole_position, player):
 
 
 def draw_holes(canvas):
+    """
+    Functia de ocupa cu desenarea initiala a casutelor cu pietre pe tabla de joc si de redesenarea acestora dupa fiecare
+    modificare adusa numarului de pietre dintr-o casuta (adica dupa o mutare si dupa colectarea punctelor).
+    :param canvas: o referinta catre obiectul Canvas pe care se vor desena casutele
+    """
     global holes
     first_row_of_holes = []
     second_row_of_holes = []
@@ -254,6 +303,15 @@ def draw_holes(canvas):
 
 
 def move(starting_position, canvas, player):
+    """
+    Functia face mutarea efectiva a pietrelor din casuta selectata de jucator, respectand regula Kroo, conform careia
+    nu se pun pietre in casuta din care s-a inceput mutarea. L-a final redeseneaza casutele si calculeaza punctele
+    castigate.
+    :param starting_position: pozitia aleasa de jucator pentru a muta
+    :param canvas: o referinta de tip canvas pentru redesenare
+    :param player: jucatorul care face mutarea
+    :return: numarul de puncte castigate
+    """
     global holes
     position_to_change = starting_position
     for i in range(0, holes[starting_position]):
@@ -270,6 +328,14 @@ def move(starting_position, canvas, player):
 
 
 def choose_to_move2(position_button, canvas, main_window):  # player two move
+    """
+    Functie apelata de jucatorul doi, corespunzand casutelor din partea de sus a tablei. Functia valideaza mutarea
+    aleasa de jucator si afiseaza un mesaj de eroare corespunzator in caz de invaliditate. Daca miscarea este corecta
+    realizarea mutarea efectiva a pietrelor si calculeaza punctajul obtinut.
+    :param position_button: mutarea aleasa de jucatro
+    :param canvas: o referinta la obiectul canvas pentru redesenarea casutelor
+    :param main_window: o referinta la obiectul window pentru afisare castigatorului la final
+    """
     global player_two_score, player_two_score_label, turn, turn_label, warning_unit
     is_valid, error = valid_move(position_button)
     if not is_valid:
@@ -289,9 +355,9 @@ def choose_to_move2(position_button, canvas, main_window):  # player two move
         points = move(position_button, canvas, "player two")
         if points != 0:
             player_two_score += points
-            main_window.after(1000, lambda: player_one_score_label.config(text=
-                                                                          f"Player Two Score: {str(player_one_score)}"))
-
+            # player_two_score_label.config(text=f"Player Two Score: {str(player_two_score)}")
+            main_window.after(500, lambda: player_two_score_label.config(
+                text=f"Player Two Score: {str(player_two_score)}"))
             draw_holes(canvas)
 
         if not is_game_over():
@@ -302,6 +368,14 @@ def choose_to_move2(position_button, canvas, main_window):  # player two move
 
 
 def choose_to_move1(position_button, canvas, main_window):  # player one move
+    """
+    Functie apelata de jucatorul doi, corespunzand casutelor din partea de sus a tablei. Functia valideaza mutarea
+    aleasa de jucator si afiseaza un mesaj de eroare corespunzator in caz de invaliditate. Daca miscarea este corecta
+    realizarea mutarea efectiva a pietrelor si calculeaza punctajul obtinut.
+    :param position_button: mutarea aleasa de jucatro
+    :param canvas: o referinta la obiectul canvas pentru redesenarea casutelor
+    :param main_window: o referinta la obiectul window pentru afisare castigatorului la final
+    """
     global player_one_score, player_one_score_label, turn, turn_label, warning_unit
     is_valid, error = valid_move(position_button)
     if not is_valid:
@@ -322,8 +396,9 @@ def choose_to_move1(position_button, canvas, main_window):  # player one move
         points = move(position_button, canvas, "player one")
         if points != 0:
             player_one_score += points
-            main_window.after(1000, lambda: player_one_score_label.config(text=
-                                                                          f"Player One Score: {str(player_one_score)}"))
+            player_one_score_label.config(text=f"Player One Score: {str(player_one_score)}")
+            # main_window.after(500, lambda: player_one_score_label.config(
+            #     text=f"Player One Score: {str(player_one_score)}"))
             draw_holes(canvas)
 
         if not is_game_over():
@@ -335,6 +410,10 @@ def choose_to_move1(position_button, canvas, main_window):  # player one move
 
 
 def possible_moves_for_player2_aka_bot():
+    """
+    Functia realizeaza o lista de mutari valide pentru jucatorul doi cand acesta este repreentat de calculator.
+    :return: lista de mutari valide
+    """
     global holes
     possible_moves = []
     for i in range(0, 6):
@@ -344,6 +423,12 @@ def possible_moves_for_player2_aka_bot():
 
 
 def make_move_for_bot(canvas, main_window):
+    """
+    Functia se ocupa de mutarea pietrelor pentru jucatorul doi cand acesta este reprezentat de calculator. Calculatorul
+    va alege random o miscare din cele valide, va muta si i se vor calcula punctele obtinute.
+    :param canvas: o referinta la o variabila de tip canvas pentru desenarea casutelor
+    :param main_window: o referinta la o variabila de tip window pentru afisarea castigatorului
+    """
     global player_two_score, player_two_score_label, turn, turn_label
     bot_moves = possible_moves_for_player2_aka_bot()
     chosen_move = random.choice(bot_moves)
@@ -362,6 +447,13 @@ def make_move_for_bot(canvas, main_window):
 
 
 def play_with_bot(position_button, canvas, main_window):  # player one move, then bot
+    """
+    Functia de ocupa de miscarile in jocul single-player. La apasarea unui buton de catre jucatorul 1, se va realizare
+    mutarea, iar apoi se va realizare si mutarea calculatorului.
+    :param position_button: mutarea aleasa de jucatorul 1
+    :param canvas: o referinta la o variabila de tip canvas pentru desenarea casutelor
+    :param main_window: o referinta la o variabila de tip window pentru afisarea castigatorului
+    """
     global turn, turn_label
     success = choose_to_move1(position_button, canvas, main_window)
     if not success:
@@ -374,6 +466,12 @@ def play_with_bot(position_button, canvas, main_window):  # player one move, the
 
 
 def draw_board(main_window, no_of_players):
+    """
+    Functia de ocupa de desenarea tablei de joc, a casutelor initializare cu cate 4 pietre si a butoanelor
+    corespunzatoare fiecarei mutari alese de jucatori
+    :param main_window: o referinta la o variabila de tip window pentru desenare
+    :param no_of_players: numarul de jucatori, adica daca jocul va fi single-player sau multi-player
+    """
     global holes, player_two_score, player_one_score, turn_label, player_one_score_label, player_two_score_label
     one_player_frame = Frame(main_window, bg=color_palette['boardgame_background_color'], height=main_window_height,
                              width=main_window_width, highlightthickness=20,
@@ -425,6 +523,9 @@ def draw_board(main_window, no_of_players):
 
 
 def init_game():
+    """
+    Functia initializeaza partea de logica din joc, adica lista de pietre si scorul fiecarui jucator
+    """
     global holes, player_one_score, player_two_score
     for i in range(0, 12):              # 4 4 4 4 4 4 <- player2
         holes.append(4)                 # 4 4 4 4 4 4 <- player1
@@ -433,18 +534,30 @@ def init_game():
 
 
 def one_player_game_init(main_window):
+    """
+    Functia initializeaza jocul cu un singur jucator, specificand numarul 1 in apelul functiei de desenare draw_board.
+    :param main_window: o referinta la o variabila de tip window pentru desenare
+    """
     global turn, holes
     init_game()
     draw_board(main_window, 1)
 
 
 def two_players_game(main_window):
+    """
+        Functia initializeaza jocul cu doi jucatori, specificand numarul 2 in apelul functiei de desenare draw_board.
+        :param main_window: o referinta la o variabila de tip window pentru desenare
+        """
     global turn, holes
     init_game()
     draw_board(main_window, 2)
 
 
 def init2():
+    """
+    Functia deseneaza fereastra de start a jocului in care se poate alege numarul de jucatori care vor juca
+    :return: o referinta de tip window folosita ulterior pentru desenare
+    """
     main_window = Tk()
     main_window.title("Mancala")
     main_window.geometry(f"{main_window_width}x{main_window_height}")
@@ -475,6 +588,9 @@ def init2():
 
 
 def main():
+    """
+    Functia main a programului care porneste fereastra grafica.
+    """
     main_window = init2()
     main_window.mainloop()
 

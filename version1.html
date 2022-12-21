@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module version1</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>version1</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:d%3A%5Can3_sem1%5Cpython%5Cproject%5Cversion1.py">d:\an3_sem1\python\project\version1.py</a></font></td></tr></table>
+    <p><tt>@autor:&nbsp;Jinga&nbsp;Andreea</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="random.html">random</a><br>
+</td><td width="25%" valign=top><a href="tkinter.html">tkinter</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-calculate_points"><strong>calculate_points</strong></a>(last_modified_hole_position, player)</dt><dd><tt>Functia&nbsp;calculeaza&nbsp;punctele&nbsp;castigate&nbsp;de&nbsp;jucator&nbsp;intr-o&nbsp;runda&nbsp;astfel:&nbsp;se&nbsp;considera&nbsp;puncte&nbsp;castigate&nbsp;pietrele&nbsp;din<br>
+toate&nbsp;casutele&nbsp;consecutive,&nbsp;incepand&nbsp;cu&nbsp;ultima&nbsp;casuta&nbsp;modificata&nbsp;de&nbsp;jucator,&nbsp;care&nbsp;contin&nbsp;2&nbsp;sau&nbsp;3&nbsp;pietre.&nbsp;Toate<br>
+casutele&nbsp;din&nbsp;care&nbsp;se&nbsp;calculeaza&nbsp;punctele&nbsp;trebuie&nbsp;sa&nbsp;fie&nbsp;ale&nbsp;adversarului.<br>
+:param&nbsp;last_modified_hole_position:&nbsp;ultima&nbsp;casuta&nbsp;in&nbsp;care&nbsp;jucatorul&nbsp;a&nbsp;pus&nbsp;o&nbsp;piatra<br>
+:param&nbsp;player:&nbsp;jucatorul&nbsp;care&nbsp;a&nbsp;facut&nbsp;mutarea<br>
+:return:&nbsp;numarul&nbsp;de&nbsp;puncte&nbsp;castigate</tt></dd></dl>
+ <dl><dt><a name="-choose_to_move1"><strong>choose_to_move1</strong></a>(position_button, canvas, main_window)</dt><dd><tt>Functie&nbsp;apelata&nbsp;de&nbsp;jucatorul&nbsp;doi,&nbsp;corespunzand&nbsp;casutelor&nbsp;din&nbsp;partea&nbsp;de&nbsp;sus&nbsp;a&nbsp;tablei.&nbsp;Functia&nbsp;valideaza&nbsp;mutarea<br>
+aleasa&nbsp;de&nbsp;jucator&nbsp;si&nbsp;afiseaza&nbsp;un&nbsp;mesaj&nbsp;de&nbsp;eroare&nbsp;corespunzator&nbsp;in&nbsp;caz&nbsp;de&nbsp;invaliditate.&nbsp;Daca&nbsp;miscarea&nbsp;este&nbsp;corecta<br>
+realizarea&nbsp;mutarea&nbsp;efectiva&nbsp;a&nbsp;pietrelor&nbsp;si&nbsp;calculeaza&nbsp;punctajul&nbsp;obtinut.<br>
+:param&nbsp;position_button:&nbsp;mutarea&nbsp;aleasa&nbsp;de&nbsp;jucatro<br>
+:param&nbsp;canvas:&nbsp;o&nbsp;referinta&nbsp;la&nbsp;obiectul&nbsp;canvas&nbsp;pentru&nbsp;redesenarea&nbsp;casutelor<br>
+:param&nbsp;main_window:&nbsp;o&nbsp;referinta&nbsp;la&nbsp;obiectul&nbsp;window&nbsp;pentru&nbsp;afisare&nbsp;castigatorului&nbsp;la&nbsp;final</tt></dd></dl>
+ <dl><dt><a name="-choose_to_move2"><strong>choose_to_move2</strong></a>(position_button, canvas, main_window)</dt><dd><tt>Functie&nbsp;apelata&nbsp;de&nbsp;jucatorul&nbsp;doi,&nbsp;corespunzand&nbsp;casutelor&nbsp;din&nbsp;partea&nbsp;de&nbsp;sus&nbsp;a&nbsp;tablei.&nbsp;Functia&nbsp;valideaza&nbsp;mutarea<br>
+aleasa&nbsp;de&nbsp;jucator&nbsp;si&nbsp;afiseaza&nbsp;un&nbsp;mesaj&nbsp;de&nbsp;eroare&nbsp;corespunzator&nbsp;in&nbsp;caz&nbsp;de&nbsp;invaliditate.&nbsp;Daca&nbsp;miscarea&nbsp;este&nbsp;corecta<br>
+realizarea&nbsp;mutarea&nbsp;efectiva&nbsp;a&nbsp;pietrelor&nbsp;si&nbsp;calculeaza&nbsp;punctajul&nbsp;obtinut.<br>
+:param&nbsp;position_button:&nbsp;mutarea&nbsp;aleasa&nbsp;de&nbsp;jucatro<br>
+:param&nbsp;canvas:&nbsp;o&nbsp;referinta&nbsp;la&nbsp;obiectul&nbsp;canvas&nbsp;pentru&nbsp;redesenarea&nbsp;casutelor<br>
+:param&nbsp;main_window:&nbsp;o&nbsp;referinta&nbsp;la&nbsp;obiectul&nbsp;window&nbsp;pentru&nbsp;afisare&nbsp;castigatorului&nbsp;la&nbsp;final</tt></dd></dl>
+ <dl><dt><a name="-draw_board"><strong>draw_board</strong></a>(main_window, no_of_players)</dt><dd><tt>Functia&nbsp;de&nbsp;ocupa&nbsp;de&nbsp;desenarea&nbsp;tablei&nbsp;de&nbsp;joc,&nbsp;a&nbsp;casutelor&nbsp;initializare&nbsp;cu&nbsp;cate&nbsp;4&nbsp;pietre&nbsp;si&nbsp;a&nbsp;butoanelor<br>
+corespunzatoare&nbsp;fiecarei&nbsp;mutari&nbsp;alese&nbsp;de&nbsp;jucatori<br>
+:param&nbsp;main_window:&nbsp;o&nbsp;referinta&nbsp;la&nbsp;o&nbsp;variabila&nbsp;de&nbsp;tip&nbsp;window&nbsp;pentru&nbsp;desenare<br>
+:param&nbsp;no_of_players:&nbsp;numarul&nbsp;de&nbsp;jucatori,&nbsp;adica&nbsp;daca&nbsp;jocul&nbsp;va&nbsp;fi&nbsp;single-player&nbsp;sau&nbsp;multi-player</tt></dd></dl>
+ <dl><dt><a name="-draw_holes"><strong>draw_holes</strong></a>(canvas)</dt><dd><tt>Functia&nbsp;de&nbsp;ocupa&nbsp;cu&nbsp;desenarea&nbsp;initiala&nbsp;a&nbsp;casutelor&nbsp;cu&nbsp;pietre&nbsp;pe&nbsp;tabla&nbsp;de&nbsp;joc&nbsp;si&nbsp;de&nbsp;redesenarea&nbsp;acestora&nbsp;dupa&nbsp;fiecare<br>
+modificare&nbsp;adusa&nbsp;numarului&nbsp;de&nbsp;pietre&nbsp;dintr-o&nbsp;casuta&nbsp;(adica&nbsp;dupa&nbsp;o&nbsp;mutare&nbsp;si&nbsp;dupa&nbsp;colectarea&nbsp;punctelor).<br>
+:param&nbsp;canvas:&nbsp;o&nbsp;referinta&nbsp;catre&nbsp;obiectul&nbsp;Canvas&nbsp;pe&nbsp;care&nbsp;se&nbsp;vor&nbsp;desena&nbsp;casutele</tt></dd></dl>
+ <dl><dt><a name="-get_next_position_in_weird_circle"><strong>get_next_position_in_weird_circle</strong></a>(current_position)</dt><dd><tt>Sensul&nbsp;de&nbsp;mutare&nbsp;al&nbsp;pietrelor&nbsp;este&nbsp;contrar&nbsp;acelor&nbsp;de&nbsp;ceasornic.&nbsp;Astfel&nbsp;deplasarea&nbsp;in&nbsp;lista&nbsp;holes&nbsp;cu&nbsp;12&nbsp;elemente<br>
+se&nbsp;va&nbsp;face&nbsp;urmand&nbsp;sensul&nbsp;indicilor:&nbsp;6,&nbsp;7,&nbsp;8,&nbsp;9,&nbsp;10,&nbsp;11,&nbsp;5,&nbsp;4,&nbsp;3,&nbsp;2,&nbsp;1,&nbsp;9.&nbsp;Aceasta&nbsp;functie&nbsp;da&nbsp;urmatoarea&nbsp;pozitie<br>
+care&nbsp;urmeaza&nbsp;in&nbsp;acest&nbsp;sens&nbsp;al&nbsp;deplasarii.<br>
+:param&nbsp;current_position:&nbsp;pozitia&nbsp;initiala&nbsp;pe&nbsp;care&nbsp;ne&nbsp;aflam<br>
+:return:&nbsp;pozitia&nbsp;finala&nbsp;dupa&nbsp;deplasare</tt></dd></dl>
+ <dl><dt><a name="-get_previous_position_in_weird_circle"><strong>get_previous_position_in_weird_circle</strong></a>(current_position)</dt><dd><tt>Sensul&nbsp;de&nbsp;mutare&nbsp;al&nbsp;pietrelor&nbsp;este&nbsp;contrar&nbsp;acelor&nbsp;de&nbsp;ceasornic.&nbsp;Astfel&nbsp;deplasarea&nbsp;in&nbsp;lista&nbsp;holes&nbsp;cu&nbsp;12&nbsp;elemente<br>
+se&nbsp;va&nbsp;face&nbsp;urmand&nbsp;sensul&nbsp;indicilor:&nbsp;6,&nbsp;7,&nbsp;8,&nbsp;9,&nbsp;10,&nbsp;11,&nbsp;5,&nbsp;4,&nbsp;3,&nbsp;2,&nbsp;1,&nbsp;9.&nbsp;Aceasta&nbsp;functie&nbsp;da&nbsp;pozitia&nbsp;anterioara,&nbsp;cea<br>
+de&nbsp;pe&nbsp;care&nbsp;am&nbsp;ajuns&nbsp;pe&nbsp;pozitia&nbsp;curenta.<br>
+:param&nbsp;current_position:&nbsp;pozitia&nbsp;pe&nbsp;care&nbsp;ne&nbsp;aflam&nbsp;la&nbsp;inceput<br>
+:return:&nbsp;pozitia&nbsp;anterioara</tt></dd></dl>
+ <dl><dt><a name="-init2"><strong>init2</strong></a>()</dt><dd><tt>Functia&nbsp;deseneaza&nbsp;fereastra&nbsp;de&nbsp;start&nbsp;a&nbsp;jocului&nbsp;in&nbsp;care&nbsp;se&nbsp;poate&nbsp;alege&nbsp;numarul&nbsp;de&nbsp;jucatori&nbsp;care&nbsp;vor&nbsp;juca<br>
+:return:&nbsp;o&nbsp;referinta&nbsp;de&nbsp;tip&nbsp;window&nbsp;folosita&nbsp;ulterior&nbsp;pentru&nbsp;desenare</tt></dd></dl>
+ <dl><dt><a name="-init_game"><strong>init_game</strong></a>()</dt><dd><tt>Functia&nbsp;initializeaza&nbsp;partea&nbsp;de&nbsp;logica&nbsp;din&nbsp;joc,&nbsp;adica&nbsp;lista&nbsp;de&nbsp;pietre&nbsp;si&nbsp;scorul&nbsp;fiecarui&nbsp;jucator</tt></dd></dl>
+ <dl><dt><a name="-is_game_over"><strong>is_game_over</strong></a>()</dt><dd><tt>Functia&nbsp;specifica&nbsp;daca&nbsp;jocul&nbsp;s-a&nbsp;terminat,&nbsp;adica&nbsp;daca&nbsp;vreunul&nbsp;dintre&nbsp;jucatori&nbsp;are&nbsp;mai&nbsp;mult&nbsp;de&nbsp;24&nbsp;de<br>
+pietre&nbsp;dintr-un&nbsp;total&nbsp;de&nbsp;48.<br>
+:return:&nbsp;Functia&nbsp;returneaza&nbsp;True&nbsp;daca&nbsp;jocul&nbsp;s-a&nbsp;terminat,&nbsp;adica&nbsp;daca&nbsp;avem&nbsp;un&nbsp;castigator,&nbsp;si&nbsp;False&nbsp;altfel.</tt></dd></dl>
+ <dl><dt><a name="-is_opponent_starving"><strong>is_opponent_starving</strong></a>(copy_holes, pressed_button, player)</dt><dd><tt>Functia&nbsp;verifica&nbsp;incalcarea&nbsp;regulii&nbsp;"Adversarul&nbsp;nu&nbsp;trebuie&nbsp;să&nbsp;fie&nbsp;niciodată&nbsp;înfometat".&nbsp;Conform&nbsp;acestei&nbsp;reguli&nbsp;daca<br>
+adversarul&nbsp;ramane&nbsp;fara&nbsp;pietre&nbsp;in&nbsp;urma&nbsp;mutarii&nbsp;lui,&nbsp;jucatorul&nbsp;este&nbsp;obligat&nbsp;sa&nbsp;alega&nbsp;o&nbsp;mutare&nbsp;care&nbsp;sa&nbsp;ii&nbsp;ofere&nbsp;pietre<br>
+adversarului&nbsp;pentru&nbsp;mutarea&nbsp;viitoare.&nbsp;Functia&nbsp;verifica&nbsp;daca&nbsp;adversarul&nbsp;de&nbsp;afla&nbsp;in&nbsp;situatie&nbsp;de&nbsp;informetare,&nbsp;iar&nbsp;in<br>
+acest&nbsp;caz&nbsp;simuleaza&nbsp;mutarea&nbsp;pentru&nbsp;a&nbsp;verifica&nbsp;daca&nbsp;acesta&nbsp;se&nbsp;va&nbsp;afla&nbsp;in&nbsp;stare&nbsp;de&nbsp;infometare&nbsp;si&nbsp;dupa&nbsp;mutare.<br>
+:param&nbsp;copy_holes:&nbsp;o&nbsp;copie&nbsp;a&nbsp;listei&nbsp;de&nbsp;casute&nbsp;si&nbsp;pietre&nbsp;pe&nbsp;care&nbsp;se&nbsp;va&nbsp;simula&nbsp;mutarea<br>
+:param&nbsp;pressed_button:&nbsp;mutarea&nbsp;aleasa&nbsp;de&nbsp;jucator<br>
+:param&nbsp;player:&nbsp;jucatorul&nbsp;care&nbsp;face&nbsp;mutarea<br>
+:return:&nbsp;Functia&nbsp;returneaza&nbsp;True&nbsp;in&nbsp;cazul&nbsp;in&nbsp;care&nbsp;in&nbsp;urma&nbsp;mutarii&nbsp;adversarul&nbsp;este&nbsp;infometat,&nbsp;False&nbsp;altfel</tt></dd></dl>
+ <dl><dt><a name="-main"><strong>main</strong></a>()</dt><dd><tt>Functia&nbsp;main&nbsp;a&nbsp;programului&nbsp;care&nbsp;porneste&nbsp;fereastra&nbsp;grafica.</tt></dd></dl>
+ <dl><dt><a name="-make_move_for_bot"><strong>make_move_for_bot</strong></a>(canvas, main_window)</dt><dd><tt>Functia&nbsp;se&nbsp;ocupa&nbsp;de&nbsp;mutarea&nbsp;pietrelor&nbsp;pentru&nbsp;jucatorul&nbsp;doi&nbsp;cand&nbsp;acesta&nbsp;este&nbsp;reprezentat&nbsp;de&nbsp;calculator.&nbsp;Calculatorul<br>
+va&nbsp;alege&nbsp;random&nbsp;o&nbsp;miscare&nbsp;din&nbsp;cele&nbsp;valide,&nbsp;va&nbsp;muta&nbsp;si&nbsp;i&nbsp;se&nbsp;vor&nbsp;calcula&nbsp;punctele&nbsp;obtinute.<br>
+:param&nbsp;canvas:&nbsp;o&nbsp;referinta&nbsp;la&nbsp;o&nbsp;variabila&nbsp;de&nbsp;tip&nbsp;canvas&nbsp;pentru&nbsp;desenarea&nbsp;casutelor<br>
+:param&nbsp;main_window:&nbsp;o&nbsp;referinta&nbsp;la&nbsp;o&nbsp;variabila&nbsp;de&nbsp;tip&nbsp;window&nbsp;pentru&nbsp;afisarea&nbsp;castigatorului</tt></dd></dl>
+ <dl><dt><a name="-move"><strong>move</strong></a>(starting_position, canvas, player)</dt><dd><tt>Functia&nbsp;face&nbsp;mutarea&nbsp;efectiva&nbsp;a&nbsp;pietrelor&nbsp;din&nbsp;casuta&nbsp;selectata&nbsp;de&nbsp;jucator,&nbsp;respectand&nbsp;regula&nbsp;Kroo,&nbsp;conform&nbsp;careia<br>
+nu&nbsp;se&nbsp;pun&nbsp;pietre&nbsp;in&nbsp;casuta&nbsp;din&nbsp;care&nbsp;s-a&nbsp;inceput&nbsp;mutarea.&nbsp;L-a&nbsp;final&nbsp;redeseneaza&nbsp;casutele&nbsp;si&nbsp;calculeaza&nbsp;punctele<br>
+castigate.<br>
+:param&nbsp;starting_position:&nbsp;pozitia&nbsp;aleasa&nbsp;de&nbsp;jucator&nbsp;pentru&nbsp;a&nbsp;muta<br>
+:param&nbsp;canvas:&nbsp;o&nbsp;referinta&nbsp;de&nbsp;tip&nbsp;canvas&nbsp;pentru&nbsp;redesenare<br>
+:param&nbsp;player:&nbsp;jucatorul&nbsp;care&nbsp;face&nbsp;mutarea<br>
+:return:&nbsp;numarul&nbsp;de&nbsp;puncte&nbsp;castigate</tt></dd></dl>
+ <dl><dt><a name="-one_player_game_init"><strong>one_player_game_init</strong></a>(main_window)</dt><dd><tt>Functia&nbsp;initializeaza&nbsp;jocul&nbsp;cu&nbsp;un&nbsp;singur&nbsp;jucator,&nbsp;specificand&nbsp;numarul&nbsp;1&nbsp;in&nbsp;apelul&nbsp;functiei&nbsp;de&nbsp;desenare&nbsp;draw_board.<br>
+:param&nbsp;main_window:&nbsp;o&nbsp;referinta&nbsp;la&nbsp;o&nbsp;variabila&nbsp;de&nbsp;tip&nbsp;window&nbsp;pentru&nbsp;desenare</tt></dd></dl>
+ <dl><dt><a name="-play_with_bot"><strong>play_with_bot</strong></a>(position_button, canvas, main_window)</dt><dd><tt>Functia&nbsp;de&nbsp;ocupa&nbsp;de&nbsp;miscarile&nbsp;in&nbsp;jocul&nbsp;single-player.&nbsp;La&nbsp;apasarea&nbsp;unui&nbsp;buton&nbsp;de&nbsp;catre&nbsp;jucatorul&nbsp;1,&nbsp;se&nbsp;va&nbsp;realizare<br>
+mutarea,&nbsp;iar&nbsp;apoi&nbsp;se&nbsp;va&nbsp;realizare&nbsp;si&nbsp;mutarea&nbsp;calculatorului.<br>
+:param&nbsp;position_button:&nbsp;mutarea&nbsp;aleasa&nbsp;de&nbsp;jucatorul&nbsp;1<br>
+:param&nbsp;canvas:&nbsp;o&nbsp;referinta&nbsp;la&nbsp;o&nbsp;variabila&nbsp;de&nbsp;tip&nbsp;canvas&nbsp;pentru&nbsp;desenarea&nbsp;casutelor<br>
+:param&nbsp;main_window:&nbsp;o&nbsp;referinta&nbsp;la&nbsp;o&nbsp;variabila&nbsp;de&nbsp;tip&nbsp;window&nbsp;pentru&nbsp;afisarea&nbsp;castigatorului</tt></dd></dl>
+ <dl><dt><a name="-possible_moves_for_player2_aka_bot"><strong>possible_moves_for_player2_aka_bot</strong></a>()</dt><dd><tt>Functia&nbsp;realizeaza&nbsp;o&nbsp;lista&nbsp;de&nbsp;mutari&nbsp;valide&nbsp;pentru&nbsp;jucatorul&nbsp;doi&nbsp;cand&nbsp;acesta&nbsp;este&nbsp;repreentat&nbsp;de&nbsp;calculator.<br>
+:return:&nbsp;lista&nbsp;de&nbsp;mutari&nbsp;valide</tt></dd></dl>
+ <dl><dt><a name="-show_winner"><strong>show_winner</strong></a>(main_window)</dt><dd><tt>Functia&nbsp;se&nbsp;ocupa&nbsp;cu&nbsp;stabilirea&nbsp;si&nbsp;afisarea&nbsp;castigatorului&nbsp;jocului.&nbsp;Pentru&nbsp;a&nbsp;stabili&nbsp;castigatorul&nbsp;verificam&nbsp;scorul<br>
+actual&nbsp;al&nbsp;fiecarui&nbsp;jucator,&nbsp;castigator&nbsp;fiind&nbsp;cel&nbsp;care&nbsp;are&nbsp;peste&nbsp;24&nbsp;de&nbsp;puncte.&nbsp;Daca&nbsp;niciun&nbsp;jucator&nbsp;nu&nbsp;are&nbsp;peste&nbsp;24<br>
+de&nbsp;puncte&nbsp;atunci&nbsp;jocul&nbsp;s-a&nbsp;terminat&nbsp;fortat&nbsp;si&nbsp;fiecare&nbsp;jucator&nbsp;primeste&nbsp;pietrele&nbsp;de&nbsp;pe&nbsp;partea&nbsp;lui&nbsp;de&nbsp;tabla.&nbsp;Astfel<br>
+stabilirea&nbsp;jucatorului&nbsp;se&nbsp;va&nbsp;face&nbsp;dupa&nbsp;efectuarea&nbsp;acestui&nbsp;calcul.&nbsp;La&nbsp;final&nbsp;fereastra&nbsp;BoardGame&nbsp;va&nbsp;fi&nbsp;inlocuita&nbsp;cu<br>
+winner_frame<br>
+:param&nbsp;main_window:&nbsp;o&nbsp;referinta&nbsp;care&nbsp;window-ul&nbsp;principal&nbsp;peste&nbsp;care&nbsp;se&nbsp;va&nbsp;pune&nbsp;winner_frame<br>
+:return:&nbsp;fara&nbsp;tip&nbsp;de&nbsp;return.</tt></dd></dl>
+ <dl><dt><a name="-two_players_game"><strong>two_players_game</strong></a>(main_window)</dt><dd><tt>Functia&nbsp;initializeaza&nbsp;jocul&nbsp;cu&nbsp;doi&nbsp;jucatori,&nbsp;specificand&nbsp;numarul&nbsp;2&nbsp;in&nbsp;apelul&nbsp;functiei&nbsp;de&nbsp;desenare&nbsp;draw_board.<br>
+:param&nbsp;main_window:&nbsp;o&nbsp;referinta&nbsp;la&nbsp;o&nbsp;variabila&nbsp;de&nbsp;tip&nbsp;window&nbsp;pentru&nbsp;desenare</tt></dd></dl>
+ <dl><dt><a name="-valid_move"><strong>valid_move</strong></a>(pressed_button)</dt><dd><tt>Functia&nbsp;valideaza&nbsp;o&nbsp;miscare&nbsp;pe&nbsp;care&nbsp;un&nbsp;jucator&nbsp;vrea&nbsp;sa&nbsp;o&nbsp;faca.&nbsp;Conform&nbsp;regulilor&nbsp;o&nbsp;miscare&nbsp;este<br>
+valida&nbsp;daca&nbsp;jucatorul&nbsp;alege&nbsp;pietre&nbsp;din&nbsp;cadrul&nbsp;casutelor&nbsp;lui&nbsp;(de&nbsp;pe&nbsp;partea&nbsp;lui&nbsp;de&nbsp;tabla),&nbsp;daca<br>
+acesta&nbsp;nu&nbsp;il&nbsp;lasa&nbsp;pe&nbsp;adversar&nbsp;fara&nbsp;pietre&nbsp;cu&nbsp;aceasta&nbsp;mutare,&nbsp;si&nbsp;daca&nbsp;nu&nbsp;il&nbsp;infometeaza&nbsp;pe&nbsp;adversar,&nbsp;adica&nbsp;el<br>
+deja&nbsp;nu&nbsp;mai&nbsp;are&nbsp;pietre&nbsp;iar&nbsp;jucatorul&nbsp;este&nbsp;obligat&nbsp;sa-i&nbsp;ofere.<br>
+:param&nbsp;pressed_button:&nbsp;Reprezinta&nbsp;pozitia&nbsp;casutei&nbsp;aleasa&nbsp;de&nbsp;jucator&nbsp;pentru&nbsp;a&nbsp;muta<br>
+:return:&nbsp;Functia&nbsp;returneaza&nbsp;o&nbsp;tupla.&nbsp;Primul&nbsp;element&nbsp;al&nbsp;tuplei&nbsp;este&nbsp;True&nbsp;daca&nbsp;mutarea&nbsp;este&nbsp;valida,<br>
+si&nbsp;False&nbsp;in&nbsp;caz&nbsp;contrar.&nbsp;Al&nbsp;doilea&nbsp;element&nbsp;al&nbsp;tuplei&nbsp;reprezinta&nbsp;un&nbsp;cod&nbsp;de&nbsp;eroare&nbsp;in&nbsp;caz&nbsp;ca&nbsp;mutarea<br>
+nu&nbsp;este&nbsp;valida,&nbsp;pentru&nbsp;a&nbsp;afisa&nbsp;motivul&nbsp;in&nbsp;mod&nbsp;corespunzator,&nbsp;si&nbsp;None&nbsp;in&nbsp;caz&nbsp;de&nbsp;validitate.</tt></dd></dl>
+ <dl><dt><a name="-verify_breaking_rule"><strong>verify_breaking_rule</strong></a>(copy_holes, pressed_button, player)</dt><dd><tt>Functia&nbsp;valideaza&nbsp;regula&nbsp;conform&nbsp;careia&nbsp;adversarul&nbsp;nu&nbsp;poate&nbsp;ramane&nbsp;fara&nbsp;pietre&nbsp;in&nbsp;urma&nbsp;adunarii&nbsp;punctelor&nbsp;obtinute<br>
+dupa&nbsp;o&nbsp;mutare.&nbsp;Astfel&nbsp;simulam&nbsp;mutarea&nbsp;jucatorului&nbsp;si&nbsp;verificam&nbsp;la&nbsp;final&nbsp;starea&nbsp;casutelor&nbsp;adversarului,&nbsp;adica<br>
+verificam&nbsp;la&nbsp;final&nbsp;ca&nbsp;macar&nbsp;o&nbsp;casuta&nbsp;a&nbsp;adversarului&nbsp;sa&nbsp;aiba&nbsp;pietre.<br>
+:param&nbsp;copy_holes:&nbsp;o&nbsp;copie&nbsp;a&nbsp;listei&nbsp;holes,&nbsp;care&nbsp;tine&nbsp;evidenta&nbsp;pietrelor&nbsp;din&nbsp;casute<br>
+:param&nbsp;pressed_button:&nbsp;mutarea&nbsp;care&nbsp;trebuie&nbsp;validata<br>
+:param&nbsp;player:&nbsp;jucatorul&nbsp;care&nbsp;a&nbsp;facut&nbsp;mutarea<br>
+:return:&nbsp;True&nbsp;in&nbsp;cazul&nbsp;in&nbsp;care&nbsp;regula&nbsp;este&nbsp;incalcata&nbsp;si&nbsp;False&nbsp;altfel</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>ACTIVE</strong> = 'active'<br>
+<strong>ALL</strong> = 'all'<br>
+<strong>ANCHOR</strong> = 'anchor'<br>
+<strong>ARC</strong> = 'arc'<br>
+<strong>BASELINE</strong> = 'baseline'<br>
+<strong>BEVEL</strong> = 'bevel'<br>
+<strong>BOTH</strong> = 'both'<br>
+<strong>BOTTOM</strong> = 'bottom'<br>
+<strong>BROWSE</strong> = 'browse'<br>
+<strong>BUTT</strong> = 'butt'<br>
+<strong>CASCADE</strong> = 'cascade'<br>
+<strong>CENTER</strong> = 'center'<br>
+<strong>CHAR</strong> = 'char'<br>
+<strong>CHECKBUTTON</strong> = 'checkbutton'<br>
+<strong>CHORD</strong> = 'chord'<br>
+<strong>COMMAND</strong> = 'command'<br>
+<strong>CURRENT</strong> = 'current'<br>
+<strong>DISABLED</strong> = 'disabled'<br>
+<strong>DOTBOX</strong> = 'dotbox'<br>
+<strong>E</strong> = 'e'<br>
+<strong>END</strong> = 'end'<br>
+<strong>EW</strong> = 'ew'<br>
+<strong>EXCEPTION</strong> = 8<br>
+<strong>EXTENDED</strong> = 'extended'<br>
+<strong>FALSE</strong> = 0<br>
+<strong>FIRST</strong> = 'first'<br>
+<strong>FLAT</strong> = 'flat'<br>
+<strong>GROOVE</strong> = 'groove'<br>
+<strong>HIDDEN</strong> = 'hidden'<br>
+<strong>HORIZONTAL</strong> = 'horizontal'<br>
+<strong>INSERT</strong> = 'insert'<br>
+<strong>INSIDE</strong> = 'inside'<br>
+<strong>LAST</strong> = 'last'<br>
+<strong>LEFT</strong> = 'left'<br>
+<strong>MITER</strong> = 'miter'<br>
+<strong>MOVETO</strong> = 'moveto'<br>
+<strong>MULTIPLE</strong> = 'multiple'<br>
+<strong>N</strong> = 'n'<br>
+<strong>NE</strong> = 'ne'<br>
+<strong>NO</strong> = 0<br>
+<strong>NONE</strong> = 'none'<br>
+<strong>NORMAL</strong> = 'normal'<br>
+<strong>NS</strong> = 'ns'<br>
+<strong>NSEW</strong> = 'nsew'<br>
+<strong>NUMERIC</strong> = 'numeric'<br>
+<strong>NW</strong> = 'nw'<br>
+<strong>OFF</strong> = 0<br>
+<strong>ON</strong> = 1<br>
+<strong>OUTSIDE</strong> = 'outside'<br>
+<strong>PAGES</strong> = 'pages'<br>
+<strong>PIESLICE</strong> = 'pieslice'<br>
+<strong>PROJECTING</strong> = 'projecting'<br>
+<strong>RADIOBUTTON</strong> = 'radiobutton'<br>
+<strong>RAISED</strong> = 'raised'<br>
+<strong>READABLE</strong> = 2<br>
+<strong>RIDGE</strong> = 'ridge'<br>
+<strong>RIGHT</strong> = 'right'<br>
+<strong>ROUND</strong> = 'round'<br>
+<strong>S</strong> = 's'<br>
+<strong>SCROLL</strong> = 'scroll'<br>
+<strong>SE</strong> = 'se'<br>
+<strong>SEL</strong> = 'sel'<br>
+<strong>SEL_FIRST</strong> = 'sel.first'<br>
+<strong>SEL_LAST</strong> = 'sel.last'<br>
+<strong>SEPARATOR</strong> = 'separator'<br>
+<strong>SINGLE</strong> = 'single'<br>
+<strong>SOLID</strong> = 'solid'<br>
+<strong>SUNKEN</strong> = 'sunken'<br>
+<strong>SW</strong> = 'sw'<br>
+<strong>TOP</strong> = 'top'<br>
+<strong>TRUE</strong> = 1<br>
+<strong>TclVersion</strong> = 8.6<br>
+<strong>TkVersion</strong> = 8.6<br>
+<strong>UNDERLINE</strong> = 'underline'<br>
+<strong>UNITS</strong> = 'units'<br>
+<strong>VERTICAL</strong> = 'vertical'<br>
+<strong>W</strong> = 'w'<br>
+<strong>WORD</strong> = 'word'<br>
+<strong>WRITABLE</strong> = 4<br>
+<strong>X</strong> = 'x'<br>
+<strong>Y</strong> = 'y'<br>
+<strong>YES</strong> = 1<br>
+<strong>color_palette</strong> = {'active_button_color': 'thistle3', 'board': 'burlywood4', 'boardgame_background_color': 'misty rose', 'button_color': 'thistle', 'canvas_background': 'burlywood2', 'frame_background': 'thistle4', 'hole': 'wheat4', 'main_window_background_color': 'thistle2', 'random_colour': ['misty rose', 'tomato2', 'DarkOrchid3']}<br>
+<strong>holes</strong> = []<br>
+<strong>main_window_height</strong> = 500<br>
+<strong>main_window_width</strong> = 1000<br>
+<strong>player_one_score</strong> = 0<br>
+<strong>player_one_score_label</strong> = &lt;tkinter.Label object .!label2&gt;<br>
+<strong>player_two_score</strong> = 0<br>
+<strong>player_two_score_label</strong> = &lt;tkinter.Label object .!label3&gt;<br>
+<strong>turn</strong> = 'player_one'<br>
+<strong>turn_label</strong> = &lt;tkinter.Label object .!label&gt;<br>
+<strong>warning_unit</strong> = 0</td></tr></table>
+</body></html>
